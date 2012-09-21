@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'coder/cleaner'
 
 shared_examples Coder::Cleaner do
