@@ -1,1 +1,2 @@
-require "bundler/gem_tasks"
+desc "run specs"
+task(:default) { ruby '-S rspec spec' }
