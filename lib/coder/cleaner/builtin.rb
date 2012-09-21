@@ -6,6 +6,14 @@ module Coder
       OPTIONS = { :undef => :replace, :invalid => :replace, :replace => "" }
 
       def self.available?
+        has_encoding? and not jruby?
+      end
+
+      def self.jruby?
+        defined? RUBY_ENGINE and RUBY_ENGINE == 'jruby'
+      end
+
+      def self.has_encoding?
         defined? Encoding.find          and
         defined? EncodingError          and
         String.method_defined? :encode  and
