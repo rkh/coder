@@ -20,7 +20,7 @@ module Coder
       def self.available?
         load_iconv
         !!::Iconv.conv("iso-8859-1//ignore", "utf-8", "\305\253" + "a"*8160)
-      rescue Exception => e
+      rescue Exception
         false
       end
 
