@@ -12,14 +12,20 @@ conversion and encoding detection later.
 ### Cleaning Strings
 
 ``` ruby
-Coder.clean(some_string)
+clean_string = Coder.clean(dirty_string)
 ```
 
 You can also specify the encoding:
 
 
 ``` ruby
-Coder.clean(some_string, 'UTF-8')
+clean_string = Coder.clean(dirty_string, 'UTF-8')
+```
+
+You can also modify a string in-place:
+
+``` ruby
+Coder.clean! some_string
 ```
 
 ## Contributing
