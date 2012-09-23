@@ -25,6 +25,10 @@ describe Coder::Cleaner::Builtin do
   it_behaves_like Coder::Cleaner if described_class.available?
 end
 
+describe Coder::Cleaner::Java do
+  it_behaves_like Coder::Cleaner if described_class.available?
+end
+
 describe Coder::Cleaner::Iconv do
   it_behaves_like Coder::Cleaner if described_class.available?
 end
