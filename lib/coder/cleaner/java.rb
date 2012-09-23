@@ -6,7 +6,7 @@ module Coder
       def self.available?
         require 'java'
         !!::Java::JavaNioCharset::Charset
-      rescue
+      rescue LoadError, NameError
         false
       end
 
