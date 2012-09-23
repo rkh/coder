@@ -39,11 +39,12 @@ module Coder
           end
         end
 
-        module UCS_2
+        module UCS_2BE
           extend self
 
           def garbage?(input, buffered)
             return false unless buffered.size + 1 == multibyte_size
+            return true if codepoint(buffered + [input]) > 0x10FFFF
             input == 0 and buffered.all? { |b| b == 0 }
           end
 
@@ -62,15 +63,15 @@ module Coder
           def multibyte_size(*)
             2
           end
+
+          def codepoint(values)
+            [1, 0, 1].inject { |a,b| (a << 8) + b }
+          end
         end
 
-        module UCS_4
-          include UCS_2
+        module UCS_4BE
+          include UCS_2BE
           extend self
-
-          def garbage?(input, buffered)
-            super or input > 0x10FFFF
-          end
 
           def multibyte_size(*)
             4

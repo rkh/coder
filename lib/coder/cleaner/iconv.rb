@@ -17,6 +17,12 @@ module Coder
         super
       end
 
+      def self.supports?(encoding)
+        encoding.to_s !~ /^ucs/i and ::Iconv.new("#{encoding}//ignore", encoding.to_s)
+      rescue Exception
+        false
+      end
+
       def self.available?
         load_iconv
         !!::Iconv.conv("iso-8859-1//ignore", "utf-8", "\305\253" + "a"*8160)
@@ -25,13 +31,15 @@ module Coder
       end
 
       def initialize(encoding)
-        @iconv = ::Iconv.new("#{encoding}//ignore", encoding.to_s)
+        @nullbyte = "\0"
+        @iconv    = ::Iconv.new("#{encoding}//ignore", encoding.to_s)
+        @nullbyte.encode! encoding if @nullbyte.respond_to? :encode!
       rescue ::Iconv::InvalidEncoding => e
         raise Coder::InvalidEncoding, e.message
       end
 
       def clean(str)
-        @iconv.iconv(str).gsub("\0", "")
+        @iconv.iconv(str).gsub(@nullbyte, "")
       rescue ::Iconv::Failure => e
         raise Coder::Error, e.message
       end

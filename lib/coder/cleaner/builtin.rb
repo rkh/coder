@@ -13,6 +13,12 @@ module Coder
         !defined?(RUBY_ENGINE) or RUBY_ENGINE == 'ruby'
       end
 
+      def self.supports?(encoding)
+        Encoding.find(encoding)
+      rescue ArgumentError
+        false
+      end
+
       def self.has_encoding?
         defined? Encoding.find          and
         defined? EncodingError          and
@@ -30,7 +36,7 @@ module Coder
 
       def clean(str)
         str = str.dup.force_encoding(@encoding)
-        str.encode(@dummy, OPTIONS).encode(@encoding).gsub("\0", "")
+        str.encode(@dummy, OPTIONS).encode(@encoding).gsub("\0".encode(@encoding), "")
       rescue EncodingError => e
         raise Coder::Error, e.message
       end
@@ -38,9 +44,8 @@ module Coder
       private
 
       def check_encoding
-        Encoding.find(@encoding)
-      rescue ArgumentError => e
-        raise Coder::InvalidEncoding, e.message
+        return if self.class.supports? @encoding
+        raise Coder::InvalidEncoding, "unknown encoding name - #{@encoding}"
       end
 
       def needs_dummy?

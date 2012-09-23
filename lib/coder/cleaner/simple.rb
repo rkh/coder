@@ -9,9 +9,16 @@ module Coder
         true
       end
 
+      def self.supports?(encoding)
+        const_name = encoding.to_s.upcase.gsub('-', '_')
+        Encodings.const_defined? const_name
+      rescue NameError
+        false
+      end
+
       def initialize(encoding)
         const_name = encoding.to_s.upcase.gsub('-', '_')
-        raise Coder::InvalidEncoding, "unknown encoding name - #{encoding}" unless coding_available? const_name
+        raise Coder::InvalidEncoding, "unknown encoding name - #{encoding}" unless self.class.supports? const_name
         @encoding, @name = Encodings.const_get(const_name), encoding
       end
 
@@ -22,12 +29,6 @@ module Coder
       end
 
       private
-
-      def coding_available?(const_name)
-        Encodings.const_defined? const_name
-      rescue NameError
-        false
-      end
 
       def force_encoding(str)
         return str unless str.respond_to? :force_encoding
