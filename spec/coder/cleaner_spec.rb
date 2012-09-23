@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'coder/cleaner'
+require 'coder/error'
 
 shared_examples Coder::Cleaner do
   let(:encoding) { example.example_group.description }
@@ -18,6 +19,10 @@ shared_examples Coder::Cleaner do
 
     cleans "{foo \xC3 'bar'}", "{foo  'bar'}"
     cleans "yummy\xE2 \xF0\x9F\x8D\x94 \x9F\x8D\x94", "yummy 🍔 "
+  end
+
+  context "Unknown Encoding" do
+    it { expect { subject }.to raise_error(Coder::InvalidEncoding) }
   end
 end
 

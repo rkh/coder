@@ -16,9 +16,9 @@ module Coder
         @decoder = @charset.new_decoder
         @decoder.on_malformed_input(::Java::JavaNioCharset::CodingErrorAction::IGNORE)
         @decoder.on_unmappable_character(::Java::JavaNioCharset::CodingErrorAction::IGNORE)
-      rescue ::Java::JavaNioCharset::UnsupportedCharsetException
+      rescue ::Java::JavaNioCharset::UnsupportedCharsetException, ::Java::JavaNioCharset::IllegalCharsetNameException
         raise Coder::InvalidEncoding, "unknown encoding name - #{encoding}"
-      rescue Java::JavaLang::RuntimeException => e
+      rescue ::Java::JavaLang::RuntimeException => e
         raise Coder::Error, e.message, e.backtrace
       end
 

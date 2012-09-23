@@ -1,4 +1,4 @@
-module Cleaner
+module Coder
   class Error < StandardError
   end
 
