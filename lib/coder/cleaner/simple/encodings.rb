@@ -65,7 +65,7 @@ module Coder
           end
 
           def codepoint(values)
-            [1, 0, 1].inject { |a,b| (a << 8) + b }
+            values.inject { |a,b| (a << 8) + b }
           end
         end
 
