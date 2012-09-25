@@ -1,4 +1,4 @@
-require 'coder/error'
+require 'coder'
 require 'coder/cleaner/simple/byte_buffer'
 require 'coder/cleaner/simple/encodings'
 
@@ -25,14 +25,7 @@ module Coder
       def clean(str)
         bytes = ByteBuffer.new(@encoding)
         str.each_byte { |b| bytes << b }
-        force_encoding bytes.to_s
-      end
-
-      private
-
-      def force_encoding(str)
-        return str unless str.respond_to? :force_encoding
-        str.force_encoding(@name)
+        Coder.force_encoding!(bytes.to_s, @name)
       end
     end
   end

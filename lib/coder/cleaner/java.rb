@@ -1,3 +1,4 @@
+require 'coder'
 require 'coder/error'
 
 module Coder
@@ -15,7 +16,7 @@ module Coder
       end
 
       def initialize(encoding)
-        encoding  = encoding.to_s.upcase
+        @encoding = encoding.to_s.upcase
         @nullbyte = "\0"
         @charset  = ::Java::JavaNioCharset::Charset.for_name(encoding)
         @decoder  = @charset.new_decoder
@@ -30,7 +31,8 @@ module Coder
 
       def clean(str)
         buffer = ::Java::JavaNio::ByteBuffer.wrap(str.to_java_bytes)
-        @decoder.decode(buffer).to_s.gsub(@nullbyte, '')
+        string = @decoder.decode(buffer).to_s
+        Coder.force_encoding!(string, @encoding).gsub(@nullbyte, '')
       rescue Java::JavaLang::RuntimeException => e
         raise Coder::Error, e.message, e.backtrace
       end

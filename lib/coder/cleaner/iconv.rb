@@ -1,3 +1,4 @@
+require 'coder'
 require 'coder/error'
 require 'stringio'
 

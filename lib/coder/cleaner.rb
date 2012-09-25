@@ -2,6 +2,7 @@ require 'coder/cleaner/builtin'
 require 'coder/cleaner/iconv'
 require 'coder/cleaner/java'
 require 'coder/cleaner/simple'
+require 'coder'
 
 module Coder
   module Cleaner

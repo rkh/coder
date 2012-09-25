@@ -1,4 +1,4 @@
-require 'coder/error'
+require 'coder'
 
 module Coder
   module Cleaner

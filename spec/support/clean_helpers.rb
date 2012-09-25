@@ -14,6 +14,13 @@ module CleanHelpers
         subject.clean(from).should binary_equal(to)
       end
     end
+
+    def sets_encoding
+      return unless ''.respond_to? :encoding
+      it 'sets encoding properly' do
+        subject.clean(''.encode('US-ASCII')).encoding.names.should include(encoding)
+      end
+    end
   end
 
   def support(encoding)

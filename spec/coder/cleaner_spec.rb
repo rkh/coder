@@ -9,12 +9,14 @@ shared_examples Coder::Cleaner do
     cleans "\0", ""
     cleans "{foo \xC3 'bar'}", "{foo  'bar'}"
     cleans "yummy\xE2 \xF0\x9F\x8D\x94 \x9F\x8D\x94", "yummy 🍔 "
+    sets_encoding
   end
 
   encoding "UCS-2BE" do
     cleans "\x00f\x00o\x00o"
     cleans "\x00f\x00ox", "\x00f\x00o"
     cleans "\x00f\x00o\x00\x00", "\x00f\x00o"
+    sets_encoding
   end
 
   encoding "UCS-4BE" do
@@ -22,6 +24,7 @@ shared_examples Coder::Cleaner do
     cleans "\x00\x00\x00f\x00\x00\x00o\x00\x00x", "\x00\x00\x00f\x00\x00\x00o"
     cleans "\x00\x00\x00f\x00\x00\x00o\x00\x00\x00\x00", "\x00\x00\x00f\x00\x00\x00o"
     cleans "\xFF\xFF\x10\x10", ""
+    sets_encoding
   end
 
   context "unknown encoding" do
