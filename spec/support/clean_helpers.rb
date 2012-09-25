@@ -3,15 +3,15 @@ module CleanHelpers
     def encoding(encoding, &block)
       return unless described_class.supports? encoding
       context(encoding) do
-        let(:encoding) { encoding}
+        let(:encoding) { encoding }
+        subject { described_class.new(encoding) }
         instance_eval(&block)
       end
     end
 
     def cleans(from, to = from)
       it "cleans #{from.inspect} to #{to.inspect}" do
-        result = described_class.new(encoding).clean(from)
-        result.should binary_equal(to)
+        subject.clean(from).should binary_equal(to)
       end
     end
   end
