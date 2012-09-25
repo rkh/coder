@@ -32,15 +32,17 @@ module Coder
       end
 
       def initialize(encoding)
+        @encoding = encoding.to_s
         @nullbyte = "\0"
-        @iconv    = ::Iconv.new("#{encoding}//ignore", encoding.to_s)
-        @nullbyte.encode! encoding if @nullbyte.respond_to? :encode!
+        @iconv    = ::Iconv.new("#{encoding}//ignore", @encoding)
+        @nullbyte.encode! @encoding if @nullbyte.respond_to? :encode!
       rescue ::Iconv::InvalidEncoding => e
         raise Coder::InvalidEncoding, e.message
       end
 
       def clean(str)
-        @iconv.iconv(str).gsub(@nullbyte, "")
+        string = @iconv.iconv(str).gsub(@nullbyte, "")
+        Coder.force_encoding! string, @encoding
       rescue ::Iconv::Failure => e
         raise Coder::Error, e.message
       end
