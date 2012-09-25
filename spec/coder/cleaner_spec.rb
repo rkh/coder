@@ -1,7 +1,5 @@
 # encoding: UTF-8
-require 'coder/cleaner'
-require 'coder/error'
-require 'support/clean_helpers'
+require 'spec_helper'
 
 shared_examples Coder::Cleaner do
   encoding "UTF-8" do

@@ -10,15 +10,10 @@ module CleanHelpers
 
     def cleans(from, to = from)
       it "cleans #{from.inspect} to #{to.inspect}" do
-        result = described_class.new(encoding).clean(binary(from))
-        binary(result).should be == binary(to)
+        result = described_class.new(encoding).clean(from)
+        result.should binary_equal(to)
       end
     end
-  end
-
-  def binary(str)
-    return str unless str.respond_to? :force_encoding
-    str.force_encoding('binary')
   end
 
   def support(encoding)
