@@ -2,6 +2,8 @@ require 'coder/version'
 require 'coder/cleaner'
 require 'coder/error'
 
+require 'coder/ext/active_support' if defined? ActiveSupport
+
 module Coder
   extend self
   DEFAULT_ENCODING = 'UTF-8'
