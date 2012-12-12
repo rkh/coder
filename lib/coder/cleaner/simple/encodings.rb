@@ -19,11 +19,15 @@ module Coder
             input.between? 1, 127
           end
 
+          def multibyte?(input, buffered)
+            input.between? 128, 244
+          end
+
           def multibyte_start?(input, buffered)
             input.between? 192, 244
           end
 
-          def multibyte?(input, buffered)
+          def multibyte_body?(input, buffered)
             input.between? 128, 191
           end
 
@@ -52,11 +56,15 @@ module Coder
             false
           end
 
+          def multibyte?(input, buffered)
+            true
+          end
+
           def multibyte_start?(input, buffered)
             buffered.size % multibyte_size == 0
           end
 
-          def multibyte?(input, buffered)
+          def multibyte_body?(input, buffered)
             not multibyte_start? input, buffered
           end
 

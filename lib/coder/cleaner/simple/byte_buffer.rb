@@ -14,7 +14,7 @@ module Coder
             clear_buffer
           elsif encoding.single_byte? byte, buffer
             add(byte)
-          elsif encoding.multibyte? byte, buffer
+          elsif encoding.multibyte_body? byte, buffer
             fill_buffer(byte)
           elsif encoding.multibyte_start? byte, buffer
             start_buffer(byte, encoding.multibyte_size(byte, buffer))
