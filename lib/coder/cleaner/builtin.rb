@@ -28,7 +28,7 @@ module Coder
 
       def initialize(encoding)
         @encoding = encoding.to_s.upcase
-        @dummy    = @encoding == 'UTF-8' ? 'UTF-16BE' : 'UTF-8' if needs_dummy?
+        @dummy    = @encoding == 'UTF-8' ? 'UTF-16BE' : 'UTF-8'
         @dummy  ||= @encoding
 
         check_encoding
@@ -46,10 +46,6 @@ module Coder
       def check_encoding
         return if self.class.supports? @encoding
         raise Coder::InvalidEncoding, "unknown encoding name - #{@encoding}"
-      end
-
-      def needs_dummy?
-        RUBY_VERSION < '2.0'
       end
     end
   end
