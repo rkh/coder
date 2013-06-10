@@ -33,7 +33,7 @@ module Coder
         buffer = ::Java::JavaNio::ByteBuffer.wrap(str.to_java_bytes)
         string = @decoder.decode(buffer).to_s
         Coder.force_encoding!(string, @encoding).gsub(@nullbyte, '')
-      rescue Java::JavaLang::RuntimeException => e
+      rescue ::Java::JavaLang::RuntimeException => e
         raise Coder::Error, e.message, e.backtrace
       end
     end
