@@ -34,7 +34,7 @@ describe Coder do
       it 'does not modify the encoding of the passed in string' do
         str = ''.encode('binary')
         Coder.force_encoding str
-        str.encoding.name.should be == 'ASCII-8BIT'
+        str.encoding.should be == Encoding::BINARY
       end
     end
   end
